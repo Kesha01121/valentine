@@ -1,51 +1,83 @@
-function yesClicked() {
-    document.body.innerHTML = `
-        <div style="text-align:center; margin-top:100px;">
-            <h1>YAY!!! 💕💖 Аминаа (KillerChick)</h1>
-            <p>Миний хөөрхөн Валентин чамдаа хязгааргүй их хайртай 😍</p>
-        </div>
-    `;
-}
+let yesSize = 1;
+let noClicks = 0;
 
-const noBtn = document.getElementById("noBtn");
+const messages = [
+    "Үнэхээр үү? 🥺",
+    "Дахиад бодоод үзээч? 💔",
+    "Гуйж байна... 🙏",
+    "Гүй ээ, болохгүй ээ! 🙅‍♂️",
+    "Би маш их бэлдсэн шүү дээ 😫",
+    "Аминааа... ❤️"
+];
 
-document.addEventListener("mousemove", (e) => {
-    const btnRect = noBtn.getBoundingClientRect();
-
-    const btnCenterX = btnRect.left + btnRect.width / 2;
-    const btnCenterY = btnRect.top + btnRect.height / 2;
-
-    const distance = Math.hypot(
-        e.clientX - btnCenterX,
-        e.clientY - btnCenterY
-    );
-
-    // Distance threshold (how close mouse can get)
-    if (distance < 120) {
-        moveButtonAway(e);
-    }
-});
-
-function moveButtonAway(mouseEvent) {
-    const padding = 20;
-
-    // Дэлгэцний хэмжээний дотор байх байрлал сонгох
-    let maxX = window.innerWidth - noBtn.offsetWidth - padding;
-    let maxY = window.innerHeight - noBtn.offsetHeight - padding;
+// 1. Хөвж буй зүрхнүүд үүсгэх
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+    document.getElementById("hearts-container").appendChild(heart);
     
-    // Дэлгэцний хэмжээнээс гарахгүй байх
-    maxX = Math.max(padding, maxX);
-    maxY = Math.max(padding, maxY);
+    setTimeout(() => { heart.remove(); }, 5000);
+}
+setInterval(createHeart, 300);
 
-    let x = Math.random() * (maxX - padding) + padding;
-    let y = Math.random() * (maxY - padding) + padding;
+// 2. "No" товчлуур зугтах + "Yes" томрох
+function moveButtonAway() {
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
 
-    // transform байхгүй болгохыг нь шалгах
-    noBtn.style.transform = "none";
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
+    // 1. Эхлээд текстийг нь сольж, товчлуурын хэмжээг шинэчлэгдэх боломж олгоно
+    noBtn.innerText = messages[noClicks % messages.length];
+    noClicks++;
+
+    // 2. Аюулгүйн зай (pixel)
+    const padding = 20; 
+
+    // 3. Товчлуурын одоогийн өргөн ба өндрийг авна
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    // 4. Дэлгэцийн боломжит дээд хязгаарыг тооцоолно
+    const maxX = window.innerWidth - btnWidth - padding;
+    const maxY = window.innerHeight - btnHeight - padding;
+
+    // 5. Санамсаргүй байрлал сонгох (Дэлгэцээс гарахгүй байх баталгаа)
+    let randomX = Math.random() * (maxX - padding) + padding;
+    let randomY = Math.random() * (maxY - padding) + padding;
+
+    // Сөрөг утга гарахаас сэргийлнэ (жижиг дэлгэц дээр)
+    randomX = Math.max(padding, Math.min(randomX, maxX));
+    randomY = Math.max(padding, Math.min(randomY, maxY));
+
+    // 6. Байрлалыг оноож, CSS transform-ыг арилгана
+    noBtn.style.position = "fixed";
+    noBtn.style.left = `${randomX}px`;
+    noBtn.style.top = `${randomY}px`;
+    noBtn.style.transform = "none"; // ЭНЭ МАШ ЧУХАЛ: CSS дээрх translate-ийг арилгаж байна
+    noBtn.style.margin = "0"; // Илүү зайг арилгана
+
+    // 7. "Yes" товчийг томруулна
+    yesSize += 0.15;
+    yesBtn.style.transform = `scale(${yesSize})`;
 }
 
-function noClicked() {
-    noBtn.style.display = "none";
+// 3. "Yes" дарах үеийн эффект
+function yesClicked() {
+    confetti({
+        particleCount: 200,
+        spread: 100,
+        origin: { y: 0.6 }
+    });
+
+    // "No" товчлуурыг дэлгэцнээс устгах (ЭНЭ ХЭСГИЙГ НЭМЭЭРЭЙ)
+    const noBtn = document.getElementById("noBtn");
+    if (noBtn) noBtn.remove();
+
+    document.getElementById('main-content').innerHTML = `
+        <img src="https://media.tenor.com/gU_Pb_769_UAAAAAi/peach-goma-peach-and-goma.gif" style="width:200px; border-radius:20px;">
+        <h1 style="font-size: 2.5rem; color: #ff4d6d;">YAY!!! 💕💖</h1>
+        <p style="font-size: 1.5rem;">Миний хөөрхөн Валентин Аминаа (KillerChick)<br>Чамдаа маш их хайртай шүү! 😍✨</p>
+    `;
 }
