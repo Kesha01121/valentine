@@ -1,8 +1,8 @@
 function yesClicked() {
     document.body.innerHTML = `
         <div style="text-align:center; margin-top:100px;">
-            <h1>YAY!!! 💕💖</h1>
-            <p>хөөрхөн бүсгүйд зөндөө их хайртай 😍</p>
+            <h1>YAY!!! 💕💖 Аминаа (KillerChick)</h1>
+            <p>Миний хөөрхөн Валентин чамдаа хязгааргүй их хайртай 😍</p>
         </div>
     `;
 }
