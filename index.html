@@ -1,22 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mn">
 <head>
     <meta charset="UTF-8">
-    <title>My Valentine 💘 - Аминаа</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Миний Валентин болох уу? 💘</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
+    <!-- Хөвж буй зүрхнүүдэд зориулсан сав -->
+    <div id="hearts-container"></div>
 
-<div class="card">
-    <h1>💖💖 Аминаа (Amy) 💖💖</h1>
-    <h1>💖 Миний валентин болохыг зөвшөөрөх үү? 💖</h1>
-    <p>Хамгийн хөөрхөн чамайгаа валентинаа болгомоор байна 🌸</p>
-
-    <div class="buttons">
-        <button onclick="yesClicked()">Yes 💕</button>
-        <button id="noBtn" onclick="noClicked()">No 😢</button>
+    <div id="main-content" class="card">
+        <img id="valentine-gif" src="https://media.tenor.com/EfS96W6Q6m0AAAAi/peach-goma-peach-and-goma.gif" alt="Cute Bear">
+        <h1 id="question-text">💖 Аминаа (Amy) 💖<br>Миний валентин болохыг зөвшөөрөх үү? 🌸</h1>
+        <div class="buttons">
+            <button id="yesBtn" class="yes-btn" onclick="yesClicked()">Yes 💕</button>
+        <!-- No товчлуур энд байхаа болино -->
+        </div>
     </div>
-</div>
+
+<!-- No товчлуурыг энд тусад нь гаргав -->
+<button id="noBtn" class="no-btn" onmouseover="moveButtonAway()" onclick="noClicked()">No 😢</button>
 
 <script src="script.js"></script>
 </body>
