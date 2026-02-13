@@ -10,60 +10,56 @@ const messages = [
     "Аминааа... ❤️"
 ];
 
-// 1. Хөвж буй зүрхнүүд үүсгэх
+const sadGifs = [
+    "https://media.tenor.com/6S_0i-m9u78AAAAi/cute-sad.gif",
+    "https://media.tenor.com/0vE_7mYvW3QAAAAi/mochi-peach.gif",
+    "https://media.tenor.com/On7809-T_8kAAAAi/peach-goma.gif",
+    "https://media.tenor.com/9vD_vF0A_mEAAAAi/mochi-mochi-peach-cat.gif",
+    "https://media.tenor.com/XpUuC0R57YAAAAAi/mochi-peach-cat-crying.gif"
+];
+
 function createHeart() {
+    const container = document.getElementById("hearts-container");
+    if (!container) return;
     const heart = document.createElement("div");
     heart.classList.add("heart");
     heart.innerHTML = "❤️";
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.animationDuration = Math.random() * 3 + 2 + "s";
-    document.getElementById("hearts-container").appendChild(heart);
-    
+    container.appendChild(heart);
     setTimeout(() => { heart.remove(); }, 5000);
 }
 setInterval(createHeart, 300);
 
-// 2. "No" товчлуур зугтах + "Yes" томрох
 function moveButtonAway() {
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
+    const gifImg = document.getElementById("valentine-gif");
 
-    // 1. Эхлээд текстийг нь сольж, товчлуурын хэмжээг шинэчлэгдэх боломж олгоно
+    gifImg.src = sadGifs[noClicks % sadGifs.length];
     noBtn.innerText = messages[noClicks % messages.length];
     noClicks++;
 
-    // 2. Аюулгүйн зай (pixel)
-    const padding = 20; 
+    const padding = 20;
+    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
-    // 3. Товчлуурын одоогийн өргөн ба өндрийг авна
-    const btnWidth = noBtn.offsetWidth;
-    const btnHeight = noBtn.offsetHeight;
-
-    // 4. Дэлгэцийн боломжит дээд хязгаарыг тооцоолно
-    const maxX = window.innerWidth - btnWidth - padding;
-    const maxY = window.innerHeight - btnHeight - padding;
-
-    // 5. Санамсаргүй байрлал сонгох (Дэлгэцээс гарахгүй байх баталгаа)
     let randomX = Math.random() * (maxX - padding) + padding;
     let randomY = Math.random() * (maxY - padding) + padding;
 
-    // Сөрөг утга гарахаас сэргийлнэ (жижиг дэлгэц дээр)
-    randomX = Math.max(padding, Math.min(randomX, maxX));
-    randomY = Math.max(padding, Math.min(randomY, maxY));
+    noBtn.style.left = `${Math.max(padding, Math.min(randomX, maxX))}px`;
+    noBtn.style.top = `${Math.max(padding, Math.min(randomY, maxY))}px`;
+    noBtn.style.transform = "none";
 
-    // 6. Байрлалыг оноож, CSS transform-ыг арилгана
-    noBtn.style.position = "fixed";
-    noBtn.style.left = `${randomX}px`;
-    noBtn.style.top = `${randomY}px`;
-    noBtn.style.transform = "none"; // ЭНЭ МАШ ЧУХАЛ: CSS дээрх translate-ийг арилгаж байна
-    noBtn.style.margin = "0"; // Илүү зайг арилгана
-
-    // 7. "Yes" товчийг томруулна
     yesSize += 0.15;
     yesBtn.style.transform = `scale(${yesSize})`;
 }
 
-// 3. "Yes" дарах үеийн эффект
+function noClicked() {
+    // Хэрэв утсан дээр эсвэл яаж ийгээд дарж чадвал
+    moveButtonAway();
+}
+
 function yesClicked() {
     confetti({
         particleCount: 200,
@@ -71,7 +67,6 @@ function yesClicked() {
         origin: { y: 0.6 }
     });
 
-    // "No" товчлуурыг дэлгэцнээс устгах (ЭНЭ ХЭСГИЙГ НЭМЭЭРЭЙ)
     const noBtn = document.getElementById("noBtn");
     if (noBtn) noBtn.remove();
 
