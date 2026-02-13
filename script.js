@@ -11,11 +11,12 @@ const messages = [
 ];
 
 const sadGifs = [
-    "https://media.tenor.com/6S_0i-m9u78AAAAi/cute-sad.gif",
-    "https://media.tenor.com/0vE_7mYvW3QAAAAi/mochi-peach.gif",
-    "https://media.tenor.com/On7809-T_8kAAAAi/peach-goma.gif",
-    "https://media.tenor.com/9vD_vF0A_mEAAAAi/mochi-mochi-peach-cat.gif",
-    "https://media.tenor.com/XpUuC0R57YAAAAAi/mochi-peach-cat-crying.gif"
+    "sad1.gif",
+    "sad2.gif",
+    "sad3.gif",
+    "sad4.gif",
+    "sad5.gif",
+    "sad6.gif"
 ];
 
 function createHeart() {
@@ -76,3 +77,4 @@ function yesClicked() {
         <p style="font-size: 1.5rem;">Миний хөөрхөн Валентин Аминаа (KillerChick)<br>Чамдаа маш их хайртай шүү! 😍✨</p>
     `;
 }
+
